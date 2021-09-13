@@ -1,0 +1,151 @@
+
+STUDENT
+//conexión a mysql
+const mysqlConnection = require('../databases/driverMySql');
+
+//Controladors para acciones de rol administrador en mysql
+const adminCtrl = {};
+
+//Este método selecciona solo un administrador de la base de datos
+
+studentsCtrl.getStudents = async (req, res) => {  
+  const {id} = req.params;
+  await mysqlConnection.query(
+    'SELECT * FROM persona INNER JOIN administrador ON'+
+    ' persona.DocIdent = administrador.DocIdent WHERE administrador.DocIdent = ?',
+      [id], (err, rows, fields)=> {
+        if(!err){
+            res.json(rows[0]); 
+        }
+        else{
+          console.log("=====> " + err);
+        };
+    });
+};
+
+
+//Este metodo selecciona todos los administradores de la base de datos
+
+studentsCtrl.getStudents = async (req, res) => { 
+ mysqlConnection.query(
+    'SELECT * FROM persona INNER JOIN administrador ON persona.DocIdent = administrador.DocIdent'
+    , (err, rows, fields)=> {
+    if(!err){
+      res.json(rows);
+    }
+    else{
+      console.log("=====> " + err);
+    };
+  });
+};
+
+
+
+
+module.exports = adminCtrl;
+
+
+TECHER
+
+const techer = {};
+
+techerCtrl.getTecher = async (req, res) => {
+const {id} = req.params;
+await mysqlConnection.query(
+[id], (err, rows, fields)=> {
+if(!err){
+res.json(rows[0]);
+}
+else{
+console.log("=====>" +err);
+};
+
+
+techerCtrol.getAdmins = async (req, res) => {
+mysqlconnection.query(
+'SELECT * FROM persona INNER JOIN techer ON persona.DocIdent = techer.DocIdent'
+, (err, rows, fiels)=>
+if(!err){
+res.json(rows);
+}
+else{
+
+console.log("=====>" + err);
+};
+});
+};
+
+module.exports = adminCtrl;
+
+
+
+
+
+
+
+
+
+
+
+<h1>BASES DE DATOS<h>
+
+CREATE TABLE Persona(
+    DocIdent int (10) NOT NULL,
+    nombre varchar (40),
+    apellido varchar (40),
+    genero varchar (50),
+    fechaNac date,
+    nacionalidad varchar (30),
+    direccion varchar(100),
+    celular varchar(15),
+    correoElectronico varchar (40),
+    PRIMARY KEY (DocIdent)
+    );
+    
+CREATE TABLE Administrador (
+    FOREIGN KEY DocIdent int (10),
+    permiso_eliminar tinyint
+    );
+    
+CREATE TABLE Profesor(
+    FOREIGN KEY DocIdent int (10),
+    FOREIGN KEY id_admin int (10),
+    profesion varchar (20)
+);
+
+CREATE TABLE asignado (
+    FOREIGN KEY DocId int (10),
+    FOREIGN KEY Id_asignatura int (19)
+    );
+   
+CREATE TABLE Asignatura(
+    Id_Asig int (10) NOT NULL,
+    nomb_asig VARCHAR (10),
+    Id_programa int (10),
+    PRIMARY KEY (Id_Asignatura),
+    FOREIGN KEY (Id_programa) REFERENCES Programas (Id_programa)
+);
+
+CREATE TABLE Nota_asignaura (
+    Docid_estudiante int (10),
+    Id_Nota int (8) NOT NULL,
+    Nota int (8),
+    PRIMARY KEY (Id_Nota),
+    PRIMARY KEY (Docid_estudiante)
+);
+
+CREATE TABLE Estudiante (
+    DocIdent int (11) NOT NULL,
+    FOREIGN KEY(DocIdent) REFERENCES Persona(DocIdent)
+    );
+CREATE TABLE Matricula(
+    DocIdent int (10),
+    Idcurso int (10),
+    FOREIGN KEY (DocIdent) REFERENCES Persona (DocIdent),
+    FOREIGN KEY (Idcurso) REFERENCES Curso (Idcurso)
+    );
+
+  CREATE TABLE Programas (
+     Id_programa int (8) NOT NULL,
+     Nombre_programa varchar (50),
+    PRIMARY KEY (Id_programa));
