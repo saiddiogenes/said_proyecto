@@ -4,7 +4,7 @@ export default class adminComponent extends Component {
   render() {
     return (
       <div>
-        admin component
+        
       </div>
     )
   }

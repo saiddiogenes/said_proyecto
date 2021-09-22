@@ -7,11 +7,10 @@ class homepageComponent extends Component {
       
 
          <div>
-           <img src={img3}/>
-
-        homepage component
-
-
+           <img className="img_1" src={img3}/>
+        	<div className= "text_1"> 
+        		<h1 className= "txt"> UNIVERSIDAD DE LA CALLE NUEVA </h1>   
+        	</div> 
         </div>
     )
   }
